@@ -1,0 +1,37 @@
+﻿@page
+@model CategoryModel
+@{
+    ViewData["Title"] = "Categories";
+}
+
+<label for="create-form">Добавить новую категорию</label>
+<form name="create-form">
+    <div class="form-group m-2">
+        <label for="name">Название категории</label>
+        <input type="text" class="form-control" id="name" name="name" placeholder="Введите название категории">
+    </div>
+    <button type="submit" class="btn btn-primary">Добавить</button>
+</form>
+
+<table class="table m-2">
+    <thead>
+        <tr>
+            <th scope="col">Название</th>
+            <th scope="col"></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var category in Model.Categories) 
+        {
+            <tr>
+                <td>@category.Name</td>
+                <td>
+                    <form asp-action="OnPostRemove">
+                        <input hidden type="text" name="id" value="@category.Id" />
+                        <button type="submit" class="btn btn-danger">Удалить</button>
+                    </form>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
