@@ -2,6 +2,7 @@ using Contracts.DTOs;
 using Contracts.Repositories;
 using Contracts.Services;
 using Core.Services;
+using Tests.Fakes.Database;
 using Tests.Fakes.Repositories;
 
 namespace Tests.CategoryTests;
@@ -13,6 +14,12 @@ internal class CategoryServiceTests
     public void Setup()
     {
         _categoryService = new CategoryService(new FakeCategoryRepo());
+    }
+
+    [TearDown]
+    public void TearDown()
+    {
+        FakeDb.ClearDb();
     }
 
     [Test]
