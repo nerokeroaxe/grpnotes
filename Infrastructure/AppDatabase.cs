@@ -13,4 +13,5 @@ public class AppDatabase : DbContext
     }
 
     public DbSet<Category> Categories { get; set; } = null!;
+    public DbSet<Note> Notes { get; set; } = null!;
 }

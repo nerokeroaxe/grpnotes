@@ -7,6 +7,7 @@ public interface ICategoryService
 {
     Task<CategoryView> Create(CategoryDto category);
     Task<CategoryView?> Get(Guid id);
+    Task<IEnumerable<CategoryView>> GetAllWithNotes();
     Task<IEnumerable<CategoryView>> GetAll();
     Task<CategoryView> Remove(Guid id);
 }

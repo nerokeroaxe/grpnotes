@@ -2,6 +2,7 @@ using Contracts.DTOs;
 using Contracts.Repositories;
 using Contracts.Services;
 using Core.Services;
+using Tests.Fakes.Database;
 using Tests.Fakes.Repositories;
 
 namespace Tests.CategoryTests;
@@ -13,6 +14,12 @@ internal class CategoryServiceTests
     public void Setup()
     {
         _categoryService = new CategoryService(new FakeCategoryRepo());
+    }
+
+    [TearDown]
+    public void TearDown()
+    {
+        FakeDb.ClearDb();
     }
 
     [Test]
@@ -59,7 +66,7 @@ internal class CategoryServiceTests
         await _categoryService.Create(category1);
         await _categoryService.Create(category2);
 
-        var categories = await _categoryService.GetAll();
+        var categories = await _categoryService.GetAllWithNotes();
 
         Assert.AreEqual(categories.Count(), 2);
 
@@ -68,7 +75,7 @@ internal class CategoryServiceTests
     [Test]
     public async Task GetAll_WhenNoCategories_ThenReturnEmptyList()
     {
-        var categories = await _categoryService.GetAll();
+        var categories = await _categoryService.GetAllWithNotes();
 
         Assert.AreEqual(categories.Count(), 0);
     }
