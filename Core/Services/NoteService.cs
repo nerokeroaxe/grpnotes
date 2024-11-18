@@ -30,7 +30,7 @@ public class NoteService : INoteService
     {
         if (await _noteRepo.Get(id) is null)
         {
-            throw new ArgumentException("Note not found", nameof(id));
+            throw new ArgumentException("Заметка с таким ID не найдена", nameof(id));
         }
         return (await _noteRepo.Remove(id)).ToNoteView();
     }
@@ -39,15 +39,15 @@ public class NoteService : INoteService
     {
         if (note.CategoryId == Guid.Empty) 
         {
-            throw new ArgumentException("Category id cannot be empty", nameof(note));
+            throw new ArgumentException("ID категории не должно отсутствовать", nameof(note));
         }
         if (string.IsNullOrWhiteSpace(note.Content))
         {
-            throw new ArgumentException("Content cannot be empty", nameof(note));
+            throw new ArgumentException("Контент не должен быть пустым", nameof(note));
         }
         if (note.Content.Length > MAX_CONTENT_LENGTH)
         {
-            throw new ArgumentException($"Content cannot be longer than {MAX_CONTENT_LENGTH} characters", nameof(note));
+            throw new ArgumentException($"Длина контента не должна превышать {MAX_CONTENT_LENGTH} символов", nameof(note));
         }
     }
 }

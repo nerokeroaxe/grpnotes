@@ -8,6 +8,7 @@ namespace Core.Services;
 
 public class CategoryService : ICategoryService
 {
+    private const int MAX_NAME_LENGTH = 80;
     private readonly ICategoryRepository _categoryRepo;
 
     public CategoryService(ICategoryRepository categoryRepo)
@@ -17,14 +18,7 @@ public class CategoryService : ICategoryService
 
     public async Task<CategoryView> Create(CategoryDto category)
     {
-        if (string.IsNullOrWhiteSpace(category.Name))
-        {
-            throw new ArgumentException("Category name cannot be empty", nameof(category));
-        }
-        if (await _categoryRepo.IsExists(category.Name))
-        {
-            throw new ArgumentException("Category already exists", nameof(category));
-        }
+        await _validateCategory(category);
         var result = await _categoryRepo.Create(category);
         return result.ToCategoryView();
     }
@@ -52,9 +46,25 @@ public class CategoryService : ICategoryService
         var category = await _categoryRepo.Get(id);
         if (category is null)
         {
-            throw new ArgumentException("Category not found", nameof(id));
+            throw new ArgumentException("Категория с таким ID не найдена", nameof(id));
         }
         var result = await _categoryRepo.Remove(id);
         return result.ToCategoryView();
+    }
+
+    private async Task _validateCategory(CategoryDto category)
+    {
+        if (string.IsNullOrWhiteSpace(category.Name))
+        {
+            throw new ArgumentException("Название категории не должно быть пустым", nameof(category));
+        }
+        if (category.Name.Length > MAX_NAME_LENGTH)
+        {
+            throw new ArgumentException($"Название категории не должно быть длинее {MAX_NAME_LENGTH} символов", nameof(category));
+        }
+        if (await _categoryRepo.IsExists(category.Name))
+        {
+            throw new ArgumentException("Категория с таким названием уже существует", nameof(category));
+        }
     }
 }

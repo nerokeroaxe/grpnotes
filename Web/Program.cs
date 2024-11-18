@@ -28,4 +28,4 @@ app.UseAuthorization();
 
 app.MapRazorPages();
 
-await app.RunAsync();
+app.Run();
