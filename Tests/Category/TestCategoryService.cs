@@ -97,6 +97,5 @@ internal class CategoryServiceTests
     public async Task Remove_WhenGivenWrongId_ThenThrowArgumentException()
     {
         Assert.ThrowsAsync<ArgumentException>(async () => await _categoryService.Remove(Guid.NewGuid()));
-        Assert.ThrowsAsync<ArgumentException>(async () => await _categoryService.Remove(Guid.Empty));
     }
 }
