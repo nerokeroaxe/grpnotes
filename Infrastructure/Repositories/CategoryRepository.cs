@@ -7,11 +7,11 @@ namespace Infrastructure.Repositories;
 
 public class CategoryRepository : ICategoryRepository
 {
-    private readonly Database _context;
+    private readonly AppDatabase _context;
 
-    public CategoryRepository(Database context)
+    public CategoryRepository(IDbContextFactory<AppDatabase> factory)
     {
-        _context = context;
+        _context = factory.CreateDbContext();
     }
 
     public async Task<CategoryDto> Create(CategoryDto category)

@@ -4,10 +4,12 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure;
 
-public class Database : DbContext
+public class AppDatabase : DbContext
 {
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+    public AppDatabase(DbContextOptions<AppDatabase> options)
+        : base(options)
     {
+        Database.EnsureCreated();
     }
 
     public DbSet<Category> Categories { get; set; } = null!;

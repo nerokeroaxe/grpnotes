@@ -11,7 +11,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace Infrastructure.Migrations
 {
-    [DbContext(typeof(Database))]
+    [DbContext(typeof(AppDatabase))]
     [Migration("20241118001552_Category")]
     partial class Category
     {
