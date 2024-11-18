@@ -66,7 +66,7 @@ internal class CategoryServiceTests
         await _categoryService.Create(category1);
         await _categoryService.Create(category2);
 
-        var categories = await _categoryService.GetAll();
+        var categories = await _categoryService.GetAllWithNotes();
 
         Assert.AreEqual(categories.Count(), 2);
 
@@ -75,7 +75,7 @@ internal class CategoryServiceTests
     [Test]
     public async Task GetAll_WhenNoCategories_ThenReturnEmptyList()
     {
-        var categories = await _categoryService.GetAll();
+        var categories = await _categoryService.GetAllWithNotes();
 
         Assert.AreEqual(categories.Count(), 0);
     }

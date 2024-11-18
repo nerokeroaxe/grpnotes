@@ -17,15 +17,13 @@ public static class NoteMapper
         => new() 
         { 
             Id = note.Id, 
-            Content = note.Content, 
-            Category = note.Category?.Name ?? string.Empty 
+            Content = note.Content
         };
     public static NoteDto ToNoteDto(this Note note)
         => new() 
         { 
             Id = note.Id, 
             CategoryId = note.CategoryId, 
-            Content = note.Content,
-            Category = note.Category?.ToCategoryDto()
+            Content = note.Content
         };
 }

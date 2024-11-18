@@ -28,7 +28,7 @@ internal class FakeCategoryRepo : ICategoryRepository
         return category?.ToCategoryDto();
     }
 
-    public async Task<IEnumerable<CategoryDto>> GetAll()
+    public async Task<IEnumerable<CategoryDto>> GetAllWithNotes()
     {
         return await Task.Run(() => FakeDb.Categories.Select(x => x.ToCategoryDto()));
     }

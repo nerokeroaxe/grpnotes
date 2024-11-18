@@ -41,6 +41,12 @@ public class CategoryService : ICategoryService
         return categories.Select(x => x.ToCategoryView());
     }
 
+    public async Task<IEnumerable<CategoryView>> GetAllWithNotes()
+    {
+        var categories = await _categoryRepo.GetAllWithNotes();
+        return categories.Select(x => x.ToCategoryView());
+    }
+
     public async Task<CategoryView> Remove(Guid id)
     {
         var category = await _categoryRepo.Get(id);

@@ -12,7 +12,7 @@ public static class DbConnectionServiceExtension
         var username    = Environment.GetEnvironmentVariable("DB_USER")     ?? "postgres";
         var password    = Environment.GetEnvironmentVariable("DB_PASSWORD") ?? "postgres";
         var connectionString = $"Host={host};Database={database};Username={username};Password={password}";
-        Console.WriteLine(connectionString);
+        
         services.AddDbContext<AppDatabase>(options => options.UseNpgsql(connectionString));
         services.AddSingleton<IDbContextFactory<AppDatabase>, DbContextFactory>();
     }

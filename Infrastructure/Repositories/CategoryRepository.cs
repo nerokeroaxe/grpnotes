@@ -32,10 +32,16 @@ public class CategoryRepository : ICategoryRepository
         return category?.ToCategoryDto();
     }
 
-    public async Task<IEnumerable<CategoryDto>> GetAll()
+    public async Task<IEnumerable<CategoryDto>> GetAllWithNotes()
     {
         return await _context.Categories
             .Include(x => x.Notes)
+            .Select(x => x.ToCategoryDto())
+            .ToListAsync();
+    }
+    public async Task<IEnumerable<CategoryDto>> GetAll()
+    {
+        return await _context.Categories
             .Select(x => x.ToCategoryDto())
             .ToListAsync();
     }

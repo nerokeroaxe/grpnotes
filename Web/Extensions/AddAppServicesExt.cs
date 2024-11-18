@@ -11,5 +11,8 @@ public static class AddAppServicesExtension
     {
         services.AddSingleton<ICategoryRepository, CategoryRepository>();
         services.AddSingleton<ICategoryService, CategoryService>();
+
+        services.AddSingleton<INoteRepository, NoteRepository>();
+        services.AddSingleton<INoteService, NoteService>();
     }
 }
