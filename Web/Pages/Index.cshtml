@@ -7,10 +7,10 @@
 <div class="m-3">
     <form method="post">
         <textarea name="content" class="form-control m-1" rows="4">О чем Вы сейчас думаете?</textarea>
-        <select name="categoryId" class="form-control mb-1" 
+        <select name="categoryId" class="form-control m-1" 
                 asp-items="@(new SelectList(@Model.Categories, "Id", "Name"))"
         ></select>
-        <button class="btn btn-primary mb-1" type="submit">Сохранить</button>
+        <button class="btn btn-primary m-1" type="submit">Сохранить</button>
     </form>
 </div>
 
@@ -30,11 +30,17 @@
                         <ul class="list-group">
                             @foreach (var note in category.Notes)
                             {
-                                <li class="list-group-item">@note.Content</li>
-                                <form method="post" asp-page-handler="RemoveAsync">
-                                    <input hidden type="text" name="id" value="@note.Id" />
-                                    <button type="submit" class="btn btn-danger">Удалить</button>
-                                </form>
+                                
+                                <li class="list-group-item">
+                                    <div>
+                                        <p>@note.Content</p>
+                                        <form method="post">
+                                            <input hidden type="text" name="id" value="@note.Id" />
+                                            <button type="submit" asp-page-handler="Remove" class="btn btn-danger">Удалить</button>
+                                        </form>
+                                    </div>
+                                </li>
+                            
                             }
                         </ul>
                     }

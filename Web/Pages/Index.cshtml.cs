@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace Web.Pages;
 
+[IgnoreAntiforgeryToken]
 public class IndexModel : PageModel
 {
     private readonly ILogger<IndexModel> _logger;
@@ -25,7 +26,7 @@ public class IndexModel : PageModel
         _noteService = noteService;
     }
 
-    public async Task OnGetAsync()
+    public async Task<IActionResult> OnGet()
     {
         try 
         {
@@ -36,9 +37,10 @@ public class IndexModel : PageModel
         {
             _logger.LogError("Error on get categories at note page: " + e.Message);
         }
+        return Page();
     }
 
-    public async Task<IActionResult> OnPostAsync()
+    public async Task<IActionResult> OnPost()
     { 
         _logger.LogInformation("Create note on page: CategoryId = {Note}", Note.CategoryId);
         try 
@@ -53,7 +55,7 @@ public class IndexModel : PageModel
         return RedirectToPage("Index");
     }
 
-    public async Task<IActionResult> OnPostRemoveAsync(Guid id)
+    public async Task<IActionResult> OnPostRemove(Guid id)
     {
         _logger.LogInformation("Remove note on page id: {id}", id);
         try 
@@ -64,7 +66,6 @@ public class IndexModel : PageModel
         {
             _logger.LogError("Error on remove note: " + e.Message);
         }
-        
         return RedirectToPage("Index");
     }
 }

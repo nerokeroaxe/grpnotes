@@ -7,32 +7,36 @@ namespace Infrastructure.Repositories;
 
 public class NoteRepository : INoteRepository
 {
-    protected readonly AppDatabase _context;
+    protected readonly IDbContextFactory<AppDatabase> _context;
 
     public NoteRepository(IDbContextFactory<AppDatabase> factory)
     {
-        _context = factory.CreateDbContext();
+        _context = factory;
     }
     
 
     public async Task<NoteDto> Create(NoteDto note)
     {
-        var result = await _context.Notes.AddAsync(note.ToNote());
-        await _context.SaveChangesAsync();
+        var context = _context.CreateDbContext();
+        var result = await context.Notes.AddAsync(note.ToNote());
+        await context.SaveChangesAsync();
         return result.Entity.ToNoteDto();
     }
 
     public async Task<NoteDto?> Get(Guid id)
     {
-        var note = await _context.Notes.FindAsync(id);
+        var context = _context.CreateDbContext();
+        var note = await context.Notes.FindAsync(id);
         return note?.ToNoteDto();
     }
 
     public async Task<NoteDto> Remove(Guid id)
     {
-        var note = await _context.Notes.FindAsync(id);
-        _context.Notes.Remove(note!);
-        await _context.SaveChangesAsync();
+        var context = _context.CreateDbContext();
+        var note = await context.Notes.FindAsync(id);
+        
+        context.Notes.Remove(note!);
+        await context.SaveChangesAsync();
         return note!.ToNoteDto();
     }
 }
