@@ -35,6 +35,11 @@ public class CategoryRepository : ICategoryRepository
         return await _context.Categories.Select(x => x.ToCategoryDto()).ToListAsync();
     }
 
+    public async Task<bool> IsExists(string name)
+    {
+        return await _context.Categories.AnyAsync(x => x.Name == name);
+    }
+
     public async Task<CategoryDto> Remove(Guid id)
     {
         var category = await _context.Categories.FindAsync(id);

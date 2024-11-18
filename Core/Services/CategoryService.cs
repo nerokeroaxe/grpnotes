@@ -21,6 +21,10 @@ public class CategoryService : ICategoryService
         {
             throw new ArgumentException("Category name cannot be empty", nameof(category));
         }
+        if (await _categoryRepo.IsExists(category.Name))
+        {
+            throw new ArgumentException("Category already exists", nameof(category));
+        }
         var result = await _categoryRepo.Create(category);
         return result.ToCategoryView();
     }

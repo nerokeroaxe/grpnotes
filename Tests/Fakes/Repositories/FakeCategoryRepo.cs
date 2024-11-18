@@ -29,6 +29,11 @@ internal class FakeCategoryRepo : ICategoryRepository
         return await Task.Run(() => _categories.Select(x => x.ToCategoryDto()));
     }
 
+    public async Task<bool> IsExists(string name)
+    {
+        return await Task.Run(() => _categories.Any(x => x.Name == name));
+    }
+
     public async Task<CategoryDto> Remove(Guid id)
     {
         return await Task.Run(() => 

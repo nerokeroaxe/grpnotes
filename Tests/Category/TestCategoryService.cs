@@ -42,6 +42,16 @@ internal class CategoryServiceTests
     }
 
     [Test]
+    public async Task Create_WhenCategoryAlreadyExists_ThenThrowArgumentException()
+    {
+        var category = new CategoryDto() { Name = "test" };
+
+        await _categoryService.Create(category);
+
+        Assert.ThrowsAsync<ArgumentException>(async () => await _categoryService.Create(category));
+    }
+
+    [Test]
     public async Task GetAll_ThenReturnAllCategories()
     {
         var category1 = new CategoryDto() { Name = "test1" };
