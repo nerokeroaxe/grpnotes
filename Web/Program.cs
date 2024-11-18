@@ -1,7 +1,13 @@
+using Web.Extensions;
+
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorPages();
+
+builder.Services.AddDbConnectionService();
+builder.Services.AddAppServices();
 
 var app = builder.Build();
 
@@ -22,4 +28,4 @@ app.UseAuthorization();
 
 app.MapRazorPages();
 
-app.Run();
+await app.RunAsync();
