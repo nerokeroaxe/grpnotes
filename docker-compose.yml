@@ -1,0 +1,8 @@
+services:
+  web:
+    image: web
+    build:
+      context: .
+      dockerfile: Web/Dockerfile
+    ports:
+      - 5214:5214
