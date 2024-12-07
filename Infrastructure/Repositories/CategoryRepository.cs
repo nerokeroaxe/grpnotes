@@ -7,15 +7,15 @@ namespace Infrastructure.Repositories;
 
 public class CategoryRepository : ICategoryRepository
 {
-    private readonly IDbContextFactory<AppDatabase> _context;
+    private readonly IDbContextFactory<AppDatabase> _factory;
     public CategoryRepository(IDbContextFactory<AppDatabase> factory)
     {
-        _context = factory;
+        _factory = factory;
     }
 
     public async Task<CategoryDto> Create(CategoryDto category)
     {
-        var context = _context.CreateDbContext();
+        using var context = _factory.CreateDbContext();
         
         var result = await context.Categories.AddAsync(category.ToCategory());
         await context.SaveChangesAsync();
@@ -26,7 +26,7 @@ public class CategoryRepository : ICategoryRepository
 
     public async Task<CategoryDto?> Get(Guid id)
     {
-        var context = _context.CreateDbContext();
+        using var context = _factory.CreateDbContext();
 
         var category = await context.Categories
             .Include(x => x.Notes)
@@ -37,7 +37,7 @@ public class CategoryRepository : ICategoryRepository
 
     public async Task<IEnumerable<CategoryDto>> GetAllWithNotes()
     {
-        var context = _context.CreateDbContext();
+        using var context = _factory.CreateDbContext();
         return await context.Categories
             .Include(x => x.Notes)
             .Select(x => x.ToCategoryDto())
@@ -45,7 +45,7 @@ public class CategoryRepository : ICategoryRepository
     }
     public async Task<IEnumerable<CategoryDto>> GetAll()
     {
-        var context = _context.CreateDbContext();
+        using var context = _factory.CreateDbContext();
         return await context.Categories
             .Select(x => x.ToCategoryDto())
             .ToListAsync();
@@ -53,19 +53,19 @@ public class CategoryRepository : ICategoryRepository
 
     public async Task<bool> IsExists(string name)
     {
-        var context = _context.CreateDbContext();
+        using var context = _factory.CreateDbContext();
         return await context.Categories.AnyAsync(x => x.Name == name);
     }
 
     public async Task<CategoryDto> Remove(Guid id)
     {
-        var context = _context.CreateDbContext();
+        using var context = _factory.CreateDbContext();
 
         var category = await context.Categories
             .FirstOrDefaultAsync(x => x.Id == id);
         context.Categories.Remove(category!);
         await context.SaveChangesAsync();
-
+        
         return category!.ToCategoryDto();
     }
 }
