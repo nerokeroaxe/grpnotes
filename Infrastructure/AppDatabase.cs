@@ -9,7 +9,6 @@ public class AppDatabase : DbContext
     public AppDatabase(DbContextOptions<AppDatabase> options)
         : base(options)
     {
-        Database.EnsureCreated();
     }
 
     public DbSet<Category> Categories { get; set; } = null!;
